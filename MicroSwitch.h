@@ -15,7 +15,8 @@ public:
   int GetState();
   
 private:
-  int m_lastUpdate;
+  long m_lastUpdate;
+  
   int m_currentState;
   int m_pendingState;
 

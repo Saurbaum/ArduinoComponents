@@ -31,5 +31,5 @@ void loop() {
   
   stateController.Update(updateTime);
   
-  defaultLed.SetState(!microSwitch.GetState());
+  defaultLed.SetState(microSwitch.GetState());
 }
