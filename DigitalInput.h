@@ -1,16 +1,16 @@
-#ifndef DIGITAL_OUTPUT_H
-#define DIGITAL_OUTPUT_H
+#ifndef DIGITAL_INPUT_H
+#define DIGITAL_INPUT_H
 
 #include "Arduino.h"
 #include "StateMachine.h"
 
-class DigitalOutput : public StateMachine
+class DigitalInput : public StateMachine
 {
 protected:
-  DigitalOutput(int pinId);
-  ~DigitalOutput() {};
+  DigitalInput(int pinId);
+  ~DigitalInput() {};
 
-  void SetState(int newState);
+  int GetState();
   
 public:
   virtual void Update(long updateInterval) = 0;

@@ -11,8 +11,12 @@ public:
   
   virtual void Update(long updateInterval);  
   virtual void Reset();
+
+  void SetState(int newState);
   
 private:
   int m_ledDefaultState;
+  int m_ledCurrentState;
+  int m_pendingState;
 };
 #endif
