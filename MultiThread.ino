@@ -3,16 +3,15 @@
 #include "MicroSwitch.h"
 #include "StateController.h"
 
+#define MAX_TIME -1
+
 Led defaultLed(17, HIGH);
 MicroSwitch microSwitch(10);
 StateController stateController;
 
-
-long lastUpdate;
+unsigned long lastUpdate;
 
 void setup() {
-  // put your setup code here, to run once:
-
   Serial.begin(9600);
   
   stateController.Reset();
@@ -24,9 +23,14 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  long now = millis();
-  long updateTime = now - lastUpdate;
+  unsigned long now = millis();
+  long updateTime = 0;
+  
+  if (now < lastUpdate){
+    updateTime = now + (MAX_TIME - lastUpdate);
+  } else {
+    updateTime = now - lastUpdate;
+  }
   lastUpdate = now;
   
   stateController.Update(updateTime);
