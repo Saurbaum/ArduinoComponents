@@ -2,11 +2,14 @@
 #include "Led.h"
 #include "MicroSwitch.h"
 #include "StateController.h"
+#include "Joystick.h"
 
 #define MAX_TIME -1
 
 Led defaultLed(17, HIGH);
 MicroSwitch microSwitch(10);
+Joystick joystick(0, 1, 9);
+
 StateController stateController;
 
 unsigned long lastUpdate;
@@ -18,7 +21,8 @@ void setup() {
   
   stateController.Register(&defaultLed);
   stateController.Register(&microSwitch);
-  
+  stateController.Register(&joystick);
+    
   lastUpdate = millis();
 }
 
@@ -35,5 +39,5 @@ void loop() {
   
   stateController.Update(updateTime);
   
-  defaultLed.SetState(microSwitch.GetState());
+  defaultLed.SetState(joystick.GetSwitch());
 }

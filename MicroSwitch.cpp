@@ -1,6 +1,6 @@
 #include "MicroSwitch.h"
 
-#define DEBOUNCE_TIME 10
+#define DEBOUNCE_TIME 50
 
 MicroSwitch::MicroSwitch(int pinId) : DigitalInput(pinId), m_debouncePending(false), m_lastUpdate(0), m_currentState(HIGH), m_pendingState(HIGH)
 {
