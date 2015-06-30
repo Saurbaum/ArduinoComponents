@@ -14,7 +14,8 @@ StateController stateController;
 
 unsigned long lastUpdate;
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
   
   stateController.Reset();
@@ -23,16 +24,19 @@ void setup() {
   stateController.Register(&microSwitch);
   stateController.Register(&joystick);
     
-  lastUpdate = millis();
+  lastUpdate = micros();
 }
 
-void loop() {
-  unsigned long now = millis();
+void loop()
+{
+  unsigned long now = micros();
   long updateTime = 0;
   
-  if (now < lastUpdate){
+  if (now < lastUpdate)
+  {
     updateTime = now + (MAX_TIME - lastUpdate);
-  } else {
+  } else
+  {
     updateTime = now - lastUpdate;
   }
   lastUpdate = now;
