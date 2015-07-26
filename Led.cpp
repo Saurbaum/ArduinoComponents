@@ -7,7 +7,8 @@ Led::Led(int pinId, int defaultState) : DigitalOutput(pinId), m_ledDefaultState(
 
 void Led::Update(long updateInterval)
 {
-  if (m_ledCurrentState != m_pendingState) {
+  if (m_ledCurrentState != m_pendingState)
+  {
     m_ledCurrentState = m_pendingState;
     DigitalOutput::SetState(m_ledCurrentState);
   }
@@ -20,7 +21,8 @@ void Led::Reset()
 
 void Led::SetState(int newState)
 {
-  if (m_pendingState != newState) {
+  if (m_pendingState != newState)
+  {
     m_pendingState = newState;
   }
 }
