@@ -14,9 +14,7 @@ StateController stateController;
 
 unsigned long lastUpdate;
 
-void setup() {
-  Serial.begin(9600);
-  
+void setup() {  
   stateController.Reset();
   
   stateController.Register(&defaultLed);
