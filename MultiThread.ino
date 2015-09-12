@@ -3,31 +3,27 @@
 #include "MicroSwitch.h"
 #include "StateController.h"
 #include "Joystick.h"
+#include "RGBLed.h"
 
 #define MAX_TIME -1
 
 Led defaultLed(17, HIGH);
-MicroSwitch microSwitch(10);
-Joystick joystick(0, 1, 9);
+Joystick joystick(0, 1, 15);
+RGBLed rgbLed(3, 5, 6);
+
 
 StateController stateController;
 
 unsigned long lastUpdate;
 
-<<<<<<< HEAD
-void setup() {  
-=======
 void setup()
 {
-  Serial.begin(9600);
-  
->>>>>>> 8e71224262088ab55ea735a7d7839cb0022bd2aa
   stateController.Reset();
   
   stateController.Register(&defaultLed);
-  stateController.Register(&microSwitch);
   stateController.Register(&joystick);
-    
+  stateController.Register(&rgbLed);
+
   lastUpdate = micros();
 }
 
@@ -36,11 +32,9 @@ void loop()
   unsigned long now = micros();
   long updateTime = 0;
   
-  if (now < lastUpdate)
-  {
+  if (now < lastUpdate) {
     updateTime = now + (MAX_TIME - lastUpdate);
-  } else
-  {
+  } else {
     updateTime = now - lastUpdate;
   }
   lastUpdate = now;
@@ -48,4 +42,9 @@ void loop()
   stateController.Update(updateTime);
   
   defaultLed.SetState(joystick.GetSwitch());
+
+  int red = joystick.GetXAxis() / 4;
+  int green = joystick.GetYAxis() / 4;
+
+  rgbLed.SetColour(red,green,0);
 }
