@@ -17,7 +17,7 @@ StateController stateController;
 unsigned long lastUpdate;
 
 void setup()
-{
+{ 
   stateController.Reset();
   
   stateController.Register(&defaultLed);
