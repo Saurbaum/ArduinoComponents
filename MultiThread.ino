@@ -4,25 +4,29 @@
 #include "StateController.h"
 #include "Joystick.h"
 #include "RGBLed.h"
+#include "RotaryEncoder.h"
 
 #define MAX_TIME -1
 
 Led defaultLed(17, HIGH);
 Joystick joystick(0, 1, 15);
 RGBLed rgbLed(3, 5, 6);
+RotaryEncoder dial(8, 7, 9);
 
+int rotorValue = 0;
 
 StateController stateController;
 
 unsigned long lastUpdate;
 
 void setup()
-{ 
+{
   stateController.Reset();
   
   stateController.Register(&defaultLed);
   stateController.Register(&joystick);
   stateController.Register(&rgbLed);
+  stateController.Register(&dial);
 
   lastUpdate = micros();
 }
@@ -43,8 +47,19 @@ void loop()
   
   defaultLed.SetState(joystick.GetSwitch());
 
+  rotorValue += dial.GetChange();
+
+  if (rotorValue > 255) {
+    rotorValue = 255;
+  }
+
+  if (rotorValue < 0) {
+    rotorValue = 0;
+  }
+
   int red = joystick.GetXAxis() / 4;
   int green = joystick.GetYAxis() / 4;
+  int blue = rotorValue;
 
-  rgbLed.SetColour(red,green,0);
+  rgbLed.SetColour(red,green,blue);
 }
