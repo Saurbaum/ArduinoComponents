@@ -53,8 +53,8 @@ int RotaryEncoder::GetChange()
   return change;
 }
 
-int RotaryEncoder::GetSwitch()
+bool RotaryEncoder::GetPressed()
 {
-  return m_button->GetState();
+  return m_button->JustPressed();
 }
 

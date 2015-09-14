@@ -13,7 +13,7 @@ public:
   virtual void Reset();
 
   int GetChange();
-  int GetSwitch();
+  bool GetPressed();
   
 private:
 

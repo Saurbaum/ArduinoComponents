@@ -8,20 +8,34 @@ MicroSwitch::MicroSwitch(int pinId) : DigitalInput(pinId), m_debouncePending(fal
 
 void MicroSwitch::Update(long updateInterval)
 {
-  if (m_debouncePending){
+  if (m_debouncePending)
+  {
     m_lastUpdate += updateInterval;
   }
-  else{
+  else
+  {
     m_lastUpdate = 0;
   }
 
  if (m_debouncePending){
     if (m_lastUpdate >= DEBOUNCE_TIME){
       m_debouncePending = false;
-      if (m_pendingState == DigitalInput::GetState()){
+      if (m_pendingState == DigitalInput::GetState())
+	  {
         m_currentState = m_pendingState;
-      } else {
+		if (m_currentState == HIGH)
+		{
+			m_pressed = true;
+		}
+		else
+		{
+			m_pressed = false;
+		}
+      }
+	  else 
+	  {
         m_pendingState = m_currentState;
+		m_pressed = false;
       }
       
     }
@@ -45,5 +59,12 @@ void MicroSwitch::Reset()
 int MicroSwitch::GetState()
 {
   return m_currentState;
+}
+
+bool MicroSwitch::JustPressed()
+{
+	bool pressed = m_pressed;
+	m_pressed = false;
+	return pressed;
 }
 

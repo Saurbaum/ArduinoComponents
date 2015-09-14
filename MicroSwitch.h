@@ -13,6 +13,7 @@ public:
   virtual void Reset();
 
   int GetState();
+  bool JustPressed();
   
 private:
   long m_lastUpdate;
@@ -21,5 +22,6 @@ private:
   int m_pendingState;
 
   bool m_debouncePending;
+  bool m_pressed;
 };
 #endif

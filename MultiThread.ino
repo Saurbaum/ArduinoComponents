@@ -8,7 +8,6 @@
 
 #define MAX_TIME -1
 
-Led defaultLed(17, HIGH);
 Joystick joystick(0, 1, 15);
 RGBLed rgbLed(3, 5, 6);
 RotaryEncoder dial(8, 7, 9);
@@ -23,7 +22,6 @@ void setup()
 {
   stateController.Reset();
   
-  stateController.Register(&defaultLed);
   stateController.Register(&joystick);
   stateController.Register(&rgbLed);
   stateController.Register(&dial);
@@ -44,8 +42,6 @@ void loop()
   lastUpdate = now;
   
   stateController.Update(updateTime);
-  
-  defaultLed.SetState(joystick.GetSwitch());
 
   rotorValue += dial.GetChange();
 
