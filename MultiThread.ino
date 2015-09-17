@@ -20,42 +20,43 @@ unsigned long lastUpdate;
 
 void setup()
 {
-  stateController.Reset();
-  
-  stateController.Register(&joystick);
-  stateController.Register(&rgbLed);
-  stateController.Register(&dial);
+	stateController.Reset();
 
-  lastUpdate = micros();
+	stateController.Register(&joystick);
+	stateController.Register(&rgbLed);
+	stateController.Register(&dial);
+
+	lastUpdate = micros();
 }
 
 void loop()
 {
-  unsigned long now = micros();
-  long updateTime = 0;
-  
-  if (now < lastUpdate) {
-    updateTime = now + (MAX_TIME - lastUpdate);
-  } else {
-    updateTime = now - lastUpdate;
-  }
-  lastUpdate = now;
-  
-  stateController.Update(updateTime);
+	unsigned long now = micros();
+	long updateTime = 0;
 
-  rotorValue += dial.GetChange();
+	if (now < lastUpdate) {
+		updateTime = now + (MAX_TIME - lastUpdate);
+	}
+	else {
+		updateTime = now - lastUpdate;
+	}
+	lastUpdate = now;
 
-  if (rotorValue > 255) {
-    rotorValue = 255;
-  }
+	stateController.Update(updateTime);
 
-  if (rotorValue < 0) {
-    rotorValue = 0;
-  }
+	rotorValue += dial.GetChange();
 
-  int red = joystick.GetXAxis() / 4;
-  int green = joystick.GetYAxis() / 4;
-  int blue = rotorValue;
+	if (rotorValue > 255) {
+		rotorValue = 255;
+	}
 
-  rgbLed.SetColour(red,green,blue);
+	if (rotorValue < 0) {
+		rotorValue = 0;
+	}
+
+	int red = joystick.GetXAxis() / 4;
+	int green = joystick.GetYAxis() / 4;
+	int blue = rotorValue;
+
+	rgbLed.SetColour(red, green, blue);
 }
