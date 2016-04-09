@@ -2,7 +2,7 @@
 
 DigitalInput::DigitalInput(int pinId) : StateMachine(),  m_pinId(pinId)
 {
-  pinMode(m_pinId, INPUT);
+  pinMode(m_pinId, INPUT_PULLUP);
 };
 
 int DigitalInput::GetState()

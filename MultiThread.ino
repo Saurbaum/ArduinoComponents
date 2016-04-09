@@ -8,11 +8,8 @@
 
 #define MAX_TIME -1
 
-Joystick joystick(0, 1, 15);
-RGBLed rgbLed(3, 5, 6);
-RotaryEncoder dial(8, 7, 9);
-
-int rotorValue = 0;
+MicroSwitch toggleSwitchA(2);
+MicroSwitch toggleSwitchB(3);
 
 StateController stateController;
 
@@ -22,12 +19,16 @@ void setup()
 {
 	stateController.Reset();
 
-	stateController.Register(&joystick);
-	stateController.Register(&rgbLed);
-	stateController.Register(&dial);
+	stateController.Register(&toggleSwitchA);
+  stateController.Register(&toggleSwitchB);
 
 	lastUpdate = micros();
+
+  Serial.begin(9600);
 }
+
+int lastSwitchAState = -1;
+int lastSwitchBState = -1;
 
 void loop()
 {
@@ -44,19 +45,17 @@ void loop()
 
 	stateController.Update(updateTime);
 
-	rotorValue += dial.GetChange();
+  int switchState = toggleSwitchA.GetState();
+  if (switchState != lastSwitchAState) {
+    Serial.write("toggleSwitchA\n");
+    Serial.write(switchState == LOW ? "Low\n" : "High\n");
+    lastSwitchAState = switchState;
+  }
 
-	if (rotorValue > 255) {
-		rotorValue = 255;
-	}
-
-	if (rotorValue < 0) {
-		rotorValue = 0;
-	}
-
-	int red = joystick.GetXAxis() / 4;
-	int green = joystick.GetYAxis() / 4;
-	int blue = rotorValue;
-
-	rgbLed.SetColour(red, green, blue);
+  switchState = toggleSwitchB.GetState();
+  if (switchState != lastSwitchBState) {
+    Serial.write("toggleSwitchB\n");
+    Serial.write(switchState == LOW ? "Low\n" : "High\n");
+    lastSwitchBState = switchState;
+  }
 }
